@@ -11,8 +11,6 @@ on:
   workflow_dispatch:
 jobs:
   test-py3-6:
-    needs:
-    - test-badge-py3-6
     if: success()
     runs-on: ${{ matrix.os }}
     strategy:
@@ -38,8 +36,6 @@ jobs:
     - name: Run PyTest
       run: pytest test.py
   test-py3-7:
-    needs:
-    - test-badge-py3-7
     if: success()
     runs-on: ${{ matrix.os }}
     strategy:
@@ -65,8 +61,6 @@ jobs:
     - name: Run PyTest
       run: pytest test.py
   test-py3-8:
-    needs:
-    - test-badge-py3-8
     if: success()
     runs-on: ${{ matrix.os }}
     strategy:
@@ -92,8 +86,6 @@ jobs:
     - name: Run PyTest
       run: pytest test.py
   test-py3-9:
-    needs:
-    - test-badge-py3-9
     if: success()
     runs-on: ${{ matrix.os }}
     strategy:
