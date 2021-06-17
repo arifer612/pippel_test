@@ -1,5 +1,13 @@
 name: Pip 19.2
 on:
+  push:
+    paths:
+    - '**.py'
+    - '**/pippel-test-*.yml'
+  pull_request:
+    paths:
+    - '**.py'
+    - '**/pippel-test-*.yml'
   workflow_dispatch:
 jobs:
   badge:
