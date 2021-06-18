@@ -151,8 +151,13 @@ jobs:
       id: gist
       uses: andymckay/get-gist-action@master
       with:
-        gistURL: https://gist.github.com/arifer612/875cacb3f72c102883f9e86cf11b2a40
+        gistURL: https://gist.github.com/arifer612/422882de9a033d726238ccdebd415e16
     - name: Create badges
       id: create-badges
-      run: |-
-        python ${{ steps.gist.outputs.file }} ${{ secrets.GIST_SECRETS }} 5e6692f6ca81036a08de7dfe01d20576 19.0.1 2.7 ${{ needs.test-py2-7.result == 'success' }} 3.6 ${{ needs.test-py3-6.result == 'success' }} 3.7 ${{ needs.test-py3-7.result == 'success' }} 3.8 ${{ needs.test-py3-8.result == 'success' }} 3.9 ${{ needs.test-py3-9.result == 'success' }}
+      run: |
+        python ${{ steps.gist.outputs.file }} ${{ secrets.GIST_SECRETS }} 5e6692f6ca81036a08de7dfe01d20576 19.0.1 \ 
+         2.7 ${{ needs.test-py2-7.result == 'success' }} \ 
+         3.6 ${{ needs.test-py3-6.result == 'success' }} \ 
+         3.7 ${{ needs.test-py3-7.result == 'success' }} \ 
+         3.8 ${{ needs.test-py3-8.result == 'success' }} \ 
+         3.9 ${{ needs.test-py3-9.result == 'success' }} \ 
