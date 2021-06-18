@@ -17,7 +17,7 @@ jobs:
       uses: schneegans/dynamic-badges-action@master
       with:
         auth: ${{ secrets.GIST_SECRET }}
-        gistID: 5e6692f6ca81036a08de7dfe01d20576
+        gistID: 875cacb3f72c102883f9e86cf11b2a40
         filename: ALL_19.2.json
         label: ''
         message: Known failure

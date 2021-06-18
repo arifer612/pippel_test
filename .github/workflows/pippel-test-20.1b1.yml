@@ -11,7 +11,6 @@ on:
   workflow_dispatch:
 jobs:
   test-py2-7:
-    if: success()
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -36,7 +35,6 @@ jobs:
     - name: Run PyTest
       run: pytest test.py
   test-py3-6:
-    if: success()
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -61,7 +59,6 @@ jobs:
     - name: Run PyTest
       run: pytest test.py
   test-py3-7:
-    if: success()
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -86,7 +83,6 @@ jobs:
     - name: Run PyTest
       run: pytest test.py
   test-py3-8:
-    if: success()
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -111,7 +107,6 @@ jobs:
     - name: Run PyTest
       run: pytest test.py
   test-py3-9:
-    if: success()
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -135,153 +130,28 @@ jobs:
         python -m pip install typing
     - name: Run PyTest
       run: pytest test.py
-  success-badge-py2-7:
+  create-badges:
+    runs-on: ubuntu-latest
+    if: always()
     needs:
     - test-py2-7
-    if: success()
-    runs-on: ubuntu-latest
-    steps:
-    - name: Create a success badge
-      uses: schneegans/dynamic-badges-action@master
-      with:
-        auth: ${{ secrets.GIST_SECRET }}
-        gistID: 5e6692f6ca81036a08de7dfe01d20576
-        filename: 2.7_20.1b1.json
-        label: 2.7
-        message: Pass
-        color: success
-  success-badge-py3-6:
-    needs:
     - test-py3-6
-    if: success()
-    runs-on: ubuntu-latest
-    steps:
-    - name: Create a success badge
-      uses: schneegans/dynamic-badges-action@master
-      with:
-        auth: ${{ secrets.GIST_SECRET }}
-        gistID: 5e6692f6ca81036a08de7dfe01d20576
-        filename: 3.6_20.1b1.json
-        label: 3.6
-        message: Pass
-        color: success
-  success-badge-py3-7:
-    needs:
     - test-py3-7
-    if: success()
-    runs-on: ubuntu-latest
-    steps:
-    - name: Create a success badge
-      uses: schneegans/dynamic-badges-action@master
-      with:
-        auth: ${{ secrets.GIST_SECRET }}
-        gistID: 5e6692f6ca81036a08de7dfe01d20576
-        filename: 3.7_20.1b1.json
-        label: 3.7
-        message: Pass
-        color: success
-  success-badge-py3-8:
-    needs:
     - test-py3-8
-    if: success()
-    runs-on: ubuntu-latest
-    steps:
-    - name: Create a success badge
-      uses: schneegans/dynamic-badges-action@master
-      with:
-        auth: ${{ secrets.GIST_SECRET }}
-        gistID: 5e6692f6ca81036a08de7dfe01d20576
-        filename: 3.8_20.1b1.json
-        label: 3.8
-        message: Pass
-        color: success
-  success-badge-py3-9:
-    needs:
     - test-py3-9
-    if: success()
-    runs-on: ubuntu-latest
     steps:
-    - name: Create a success badge
-      uses: schneegans/dynamic-badges-action@master
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
       with:
-        auth: ${{ secrets.GIST_SECRET }}
-        gistID: 5e6692f6ca81036a08de7dfe01d20576
-        filename: 3.9_20.1b1.json
-        label: 3.9
-        message: Pass
-        color: success
-  failure-badge-py2-7:
-    needs:
-    - test-py2-7
-    if: failure()
-    runs-on: ubuntu-latest
-    steps:
-    - name: Create a fail badge
-      uses: schneegans/dynamic-badges-action@master
+        python_version: 3.9
+    - name: Install dependencies
+      run: |-
+        python -m pip install github3.py
+    - name: Get script gist
+      id: gist
+      uses: andymckay/get-gist-action@master
       with:
-        auth: ${{ secrets.GIST_SECRET }}
-        gistID: 5e6692f6ca81036a08de7dfe01d20576
-        filename: 2.7_20.1b1.json
-        label: 2.7
-        message: Fail
-        color: critical
-  failure-badge-py3-6:
-    needs:
-    - test-py3-6
-    if: failure()
-    runs-on: ubuntu-latest
-    steps:
-    - name: Create a fail badge
-      uses: schneegans/dynamic-badges-action@master
-      with:
-        auth: ${{ secrets.GIST_SECRET }}
-        gistID: 5e6692f6ca81036a08de7dfe01d20576
-        filename: 3.6_20.1b1.json
-        label: 3.6
-        message: Fail
-        color: critical
-  failure-badge-py3-7:
-    needs:
-    - test-py3-7
-    if: failure()
-    runs-on: ubuntu-latest
-    steps:
-    - name: Create a fail badge
-      uses: schneegans/dynamic-badges-action@master
-      with:
-        auth: ${{ secrets.GIST_SECRET }}
-        gistID: 5e6692f6ca81036a08de7dfe01d20576
-        filename: 3.7_20.1b1.json
-        label: 3.7
-        message: Fail
-        color: critical
-  failure-badge-py3-8:
-    needs:
-    - test-py3-8
-    if: failure()
-    runs-on: ubuntu-latest
-    steps:
-    - name: Create a fail badge
-      uses: schneegans/dynamic-badges-action@master
-      with:
-        auth: ${{ secrets.GIST_SECRET }}
-        gistID: 5e6692f6ca81036a08de7dfe01d20576
-        filename: 3.8_20.1b1.json
-        label: 3.8
-        message: Fail
-        color: critical
-  failure-badge-py3-9:
-    needs:
-    - test-py3-9
-    if: failure()
-    runs-on: ubuntu-latest
-    steps:
-    - name: Create a fail badge
-      uses: schneegans/dynamic-badges-action@master
-      with:
-        auth: ${{ secrets.GIST_SECRET }}
-        gistID: 5e6692f6ca81036a08de7dfe01d20576
-        filename: 3.9_20.1b1.json
-        label: 3.9
-        message: Fail
-        color: critical
+        gistURL: https://gist.github.com/arifer612/422882de9a033d726238ccdebd415e16
+    - name: Create badges
+      run: |-
+        python ${{ steps.gist.outputs.file }} 875cacb3f72c102883f9e86cf11b2a40 20.1b1 2.7 ${{ needs.test-py2-7.result == 'success' }} 3.6 ${{ needs.test-py3-6.result == 'success' }} 3.7 ${{ needs.test-py3-7.result == 'success' }} 3.8 ${{ needs.test-py3-8.result == 'success' }} 3.9 ${{ needs.test-py3-9.result == 'success' }}
