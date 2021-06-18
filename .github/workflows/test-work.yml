@@ -151,7 +151,7 @@ jobs:
       id: gist
       uses: andymckay/get-gist-action@master
       with:
-        gistURL: '"https://gist.github.com/arifer612/875cacb3f72c102883f9e86cf11b2a40"'
+        gistURL: https://gist.github.com/arifer612/875cacb3f72c102883f9e86cf11b2a40
     - name: Create badges
       id: create-badges
       run: |-
