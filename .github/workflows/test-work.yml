@@ -1,0 +1,158 @@
+name: test-work
+on:
+  push:
+    paths:
+    - '**.py'
+    - '**/pippel-test-19.0.1.yml'
+  pull_request:
+    paths:
+    - '**.py'
+    - '**/pippel-test-19.0.1.yml'
+  workflow_dispatch:
+jobs:
+  test-py2-7:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-20.04
+        - ubuntu-18.04
+        - macos-10.15
+        - windows-2019
+        - windows-2016
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 2.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 2.7
+    - name: Install dependencies
+      run: |
+        python -m pip install "pip==19.0.1"
+        python -m pip install pytest
+        python -m pip install typing
+    - name: Run PyTest
+      run: pytest test.py
+  test-py3-6:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-20.04
+        - ubuntu-18.04
+        - macos-10.15
+        - windows-2019
+        - windows-2016
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.6
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
+    - name: Install dependencies
+      run: |
+        python -m pip install "pip==19.0.1"
+        python -m pip install pytest
+        python -m pip install typing
+    - name: Run PyTest
+      run: pytest test.py
+  test-py3-7:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-20.04
+        - ubuntu-18.04
+        - macos-10.15
+        - windows-2019
+        - windows-2016
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: |
+        python -m pip install "pip==19.0.1"
+        python -m pip install pytest
+        python -m pip install typing
+    - name: Run PyTest
+      run: pytest test.py
+  test-py3-8:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-20.04
+        - ubuntu-18.04
+        - macos-10.15
+        - windows-2019
+        - windows-2016
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install "pip==19.0.1"
+        python -m pip install pytest
+        python -m pip install typing
+    - name: Run PyTest
+      run: pytest test.py
+  test-py3-9:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-20.04
+        - ubuntu-18.04
+        - macos-10.15
+        - windows-2019
+        - windows-2016
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        python -m pip install "pip==19.0.1"
+        python -m pip install pytest
+        python -m pip install typing
+    - name: Run PyTest
+      run: pytest test.py
+  create-badges:
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+    - test-py2-7
+    - test-py3-6
+    - test-py3-7
+    - test-py3-8
+    - test-py3-9
+    steps:
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python_version: 3.9
+    - name: Install dependencies
+      run: |-
+        python -m pip install github3.py
+    - name: Get script gist
+      id: gist
+      uses: andymckay/get-gist-action@master
+      with:
+        gistURL: '"https://gist.github.com/arifer612/875cacb3f72c102883f9e86cf11b2a40"'
+    - name: Create badges
+      id: create-badges
+      run: |-
+        python ${{ steps.gist.outputs.file }} ${{ secrets.GIST_SECRETS }} 5e6692f6ca81036a08de7dfe01d20576 19.0.1 2.7 ${{ needs.test-py2-7.result == 'success' }} 3.6 ${{ needs.test-py3-6.result == 'success' }} 3.7 ${{ needs.test-py3-7.result == 'success' }} 3.8 ${{ needs.test-py3-8.result == 'success' }} 3.9 ${{ needs.test-py3-9.result == 'success' }}
