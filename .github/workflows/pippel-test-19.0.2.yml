@@ -154,6 +154,6 @@ jobs:
         gistURL: https://gist.github.com/arifer612/422882de9a033d726238ccdebd415e16
     - name: Create badges
       env:
-        GIST_TOKEN: ${{{{ secrets.GIST_SECRET }}}}
+        GIST_TOKEN: ${{ secrets.GIST_SECRET }}
       run: |-
         python ${{ steps.gist.outputs.file }} baf52d316196539167fbfbc2d471dcf3 19.0.2 2.7 ${{ needs.test-py2-7.result == 'success' }} 3.6 ${{ needs.test-py3-6.result == 'success' }} 3.7 ${{ needs.test-py3-7.result == 'success' }} 3.8 ${{ needs.test-py3-8.result == 'success' }} 3.9 ${{ needs.test-py3-9.result == 'success' }}
